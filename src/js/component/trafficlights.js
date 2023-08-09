@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import '../../styles/index.css';
 
-function TrafficLights() {
+const TrafficLights = () => {
   const [activeLight, setActiveLight] = useState(null);
+  const [showPurple, setShowPurple] = useState(false);
 
   const handleLightClick = (color) => {
     console.log(`${color} light clicked`);
     setActiveLight(color);
   };
+
+  const cycleLight = () => {
+    if (activeLight === "red") {
+      setActiveLight("yellow");
+    } else if (activeLight === "yellow") {
+      setActiveLight("green");
+    } else if (activeLight === "green") {
+      setActiveLight("purple");
+    } else {
+      setActiveLight("red");
+    }
+};
 
   return (
     <div className="d-flex justify-content-center vh-100">
@@ -36,8 +49,17 @@ function TrafficLights() {
             style={{ width: "60px", height: "60px" }}
             onClick={() => handleLightClick("green")}
           ></button>
+          {showPurple && (
+            <button
+              className={`btn btn-lg btn-purple mb-2 rounded-circle ${activeLight === "purple" ? "glow-button" : ""}`}
+              style={{ width: "60px", height: "60px" }}
+              onClick={() => handleLightClick("purple")}
+            ></button>
+          )}
         </div>
-      </div>
+        <button className="btn btn-dark mt-3" onClick={cycleLight}>Cycle Light</button>
+        <button className="btn btn-dark mt-3" onClick={() => setShowPurple(true)}>Add Purple Light</button>
+      </div>      
     </div>
   );
 }
